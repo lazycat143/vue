@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета на Vue</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            background-color: #ffeef4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #c94f7c;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #c94f7c;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:disabled {
+            background-color: #e0a7b9;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff0f5;
+            border-radius: 12px;
+        }
+
+        .result p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h2>Анкета пользователя</h2>
+    <label>
+        Имя:
+        <input v-model="name" type="text" placeholder="Введите имя">
+    </label>
+
+    <label>
+        О себя:
+        <textarea v-model="about" placeholder="Расскажите о себе..."></textarea>
+    </label>
+
+    <label>
+        Город:
+        <select v-model="city">
+            <option disabled value="">Выберите город</option>
+            <option>Париж</option>
+            <option>Ташкент</option>
+            <option>Москва</option>
+            <option>Нью-Йорк</option>
+        </select>
+    </label>
+
+    <label>Пол:</label>
+    <div class="radio-group">
+        <label><input type="radio" value="Мужской" v-model="gender">Мужской</label>
+        <label><input type="radio" value="Женский" v-model="gender">Женский</label>
+    </div>
+
+    <div class="checkbox-group">
+        <label><input type="checkbox" v-model="agreed">Согласен с условиями</label>
+    </div>
+
+    <button :disabled="!agreed" @click="submitForm">Отправить</button>
+
+    <div class="result" v-if="submitted">
+        <h2>Результаты анкеты:</h2>
+        <p>Имя: {{name}}</p>
+        <p>О себе: {{about}}</p>
+        <p>Город: {{city}}</p>
+        <p>Пол: {{gender}}</p>
+        <p>Согласен: {{agreed ? 'Да' : 'Нет'}}</p>
+    </div>
+</div>
+
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                name: '',
+                about: '',
+                city: '',
+                gender: '',
+                agreed: false,
+                submitted: false
+            };
+        },
+        methods: {
+            submitForm() {
+                this.submitted = true;
+            }
+        }
+    }).mount('#app');
+</script>
+
+</body>
+</html>
